@@ -12,6 +12,19 @@ class Foods extends Model
 
     protected $guarded = 'id';
 
+    public function getPresentaseAttribute()
+    {
+        $weight = $this->weight;
+        $current = $this->current_stock;
+
+        if ($weight <= 0) {
+            return 0;
+        }
+
+        return ($current / $weight) * 100;
+    }
+
+
     public function devices(){
         return $this->belongsTo(Devices::class);
     }

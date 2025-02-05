@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Foods;
+use App\Models\Devices;
+use App\Models\Controls;
 use Illuminate\Http\Request;
 
 class FoodsController extends Controller
@@ -12,7 +14,10 @@ class FoodsController extends Controller
      */
     public function index()
     {
-        //
+        $foods = Foods::limit(10)->orderBy('updated_at')->get();
+        $schedules = Controls::where('category', 'schedule')->orderBy('updated_at')->with('devices')->get();
+        $devices = Devices::limit(10)->orderBy('updated_at')->with(['controls', 'food'])->get();
+         return view('pages.monitoring', ['foods' => $foods, 'schedules' => $schedules, 'devices' => $devices]);
     }
 
     /**

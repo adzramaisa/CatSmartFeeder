@@ -10,10 +10,10 @@ class Devices extends Model
     protected $guarded = 'id';
 
     public function food(){
-        return $this->belongsTo('food_id', Foods::class);
+        return $this->belongsTo(Foods::class, 'food_id', 'id');
     }
 
     public function controls(){
-        return $this->hasMany(Controls::class);
+        return $this->hasMany(Controls::class, 'device_id')->where('category', 'management');
     }
 }
